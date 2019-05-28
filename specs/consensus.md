@@ -79,11 +79,11 @@ Verify that `block.numTransactions == len(block.transactions)`.
 
 For each `tx` in `block.transactions`:
 1. For each `input` in `tx.txData.inputs`:
-  1. Compute `h = hash(tx.txData)`.
-  1. Compute `witness = tx.witnesses[input.witnessIndex]`.
-  1. Verify that `state[input] == ecrecover(witness, h)` (only spend unspent owned coins).
+     1. Compute `h = hash(tx.txData)`.
+     1. Compute `witness = tx.witnesses[input.witnessIndex]`.
+     1. Verify that `state[input] == ecrecover(witness, h)` (only spend unspent owned coins).
 1. For each `(outpoint, recipient)` in `to_outpoints(tx)`:
-  1. Execute `state.insert(hash(outpoint), recipient)` (prevents double spends).
+     1. Execute `state.insert(hash(outpoint), recipient)` (prevents double spends).
 
 TODO check value out <= value in
 TODO additional rules for ordering witnesses, inputs, and outputs
