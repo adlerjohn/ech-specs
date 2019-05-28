@@ -4,7 +4,7 @@
 
 | bytes | name | type | description |
 |-|-|-|-|
-| 108 | headers | [block header](#block-headers) | TODO |
+| 108 | header | [block header](#block-headers) | TODO |
 | 8 | numDeposits  | uint64 | TODO |
 | variable | deposits | [transaction](#transactions) | TODO |
 | 8 | numTransactions | uint64 | TODO |
@@ -38,7 +38,7 @@
 
 | bytes | name | type | description |
 |-|-|-|-|
-| 36 | outpoint | [outpoint](#outpoint) | TODO |
+| 36 | outpoint | [outpoint](#outpoints) | TODO |
 | 4 | witnessIndex | uint32 | TODO |
 
 
