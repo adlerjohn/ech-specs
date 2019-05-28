@@ -71,7 +71,12 @@ Verify that `block.header.transactionsRoot == merkle(block.transactions)`.
 
 Verify that `block.numDeposits == len(block.deposits)`.
 
-For each `deposit` in `block.deposits`: TODO
+For each `deposit` in `block.deposits`:
+1. Verify that `len(deposit.txData.inputs) == 0`.
+1. For each `(outpoint, recipient)` in `to_outpoints(deposit)`:
+     1. Execute `state.insert(hash(outpoint), recipient)`.
+
+TODO verify that deposit comes from main chain, and recipients match up
 
 ### Validate Transactions
 
@@ -85,9 +90,11 @@ For each `tx` in `block.transactions`:
 1. For each `(outpoint, recipient)` in `to_outpoints(tx)`:
      1. Execute `state.insert(hash(outpoint), recipient)` (prevents double spends).
 
-TODO check value out <= value in
+Verify that, for each color, sum of amounts in inputs `<=` sum of amounts in outputs.
+
+Verify that transactions are lexicographically ordered in ascending order of transaction id `hash(tx.txData)`.
+
 TODO additional rules for ordering witnesses, inputs, and outputs
-TODO additional rules for transaction ordering within block
 
 ## Fork Choice Rule
 
