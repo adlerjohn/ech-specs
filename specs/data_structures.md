@@ -26,9 +26,9 @@
 |-|-|-|-|
 | 4 | version | uint32 | TODO |
 | 4 | numInputs | uint32 | TODO |
-| varies | inputs | [input](#inputs) | TODO |
+| variable | inputs | [input](#inputs) | TODO |
 | 4 | numOutputs | uint32  | TODO |
-| varies | outputs | [output](#outputs) | TODO |
+| variable | outputs | [output](#outputs) | TODO |
 | 8 | heightMin | uint64 | TODO |
 | 8 | heightMax | uint64 | TODO |
 | 8 | recentBlockHeight | uint64 | TODO |
