@@ -20,7 +20,8 @@ Denotes the block at the current head of the chain.
 ### `state`
 
 Denotes the UTXO set.
-TODO define helper functions and state better.
+
+TODO define helper functions and state better, especially with state commitments.
 
 ## Helper functions
 
@@ -76,7 +77,7 @@ For each `deposit` in `block.deposits`:
 1. For each `(outpoint, recipient)` in `to_outpoints(deposit)`:
      1. Execute `state.insert(hash(outpoint), recipient)`.
 
-TODO verify that deposit comes from main chain, and recipients match up
+TODO verify that deposit comes from main chain, and recipients match up.
 
 ### Validate Transactions
 
@@ -94,7 +95,7 @@ Verify that, for each color, sum of amounts in inputs `<=` sum of amounts in out
 
 Verify that transactions are lexicographically ordered in ascending order of transaction id `hash(tx.txData)`.
 
-TODO additional rules for ordering witnesses, inputs, and outputs
+Verify that there are no duplicate witnesses, that each subsequent input references a monotonically increasing witness index, and that all witnesses are referenced at least once.
 
 ## Fork Choice Rule
 
