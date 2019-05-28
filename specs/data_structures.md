@@ -1,5 +1,8 @@
 # Data Structures
 
+This document provides a complete description of the data structures used.
+Structures are serialized/deserialized from first row to last row, in [internal byte order](#internal-byte-order).
+
 ## Block
 
 | bytes | name | type | description |
