@@ -60,7 +60,9 @@
 
 ## Witnesses
 
-TODO
+Each witness signs the [hash](#hashing) of the [transaction data](#transaction-data).
+Transaction data therefore only needs to be hashed once, eliminating the quadratic hashing problem in Bitcoin.
+Each input indicates which witness it refers to, allowing for space savings if more than one input consumed by a transaction belong to the same address.
 
 ## Outpoints
 
