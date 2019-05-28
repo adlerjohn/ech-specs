@@ -95,7 +95,9 @@ Big-endian byte order is used for any serialization/deserialization.
 
 ## Digital Signature Scheme
 
-TODO
+The chosen curve is [secp256k1](https://en.bitcoin.it/wiki/Secp256k1) (identically to Bitcoin and Ethereum).
+Deterministic signatures ([RFC-6979](https://tools.ietf.org/rfc/rfc6979.txt)) are used.
+An extra byte appended to the end of signatures indicates parity, allowing recovery (identically to Ethereum).
 
 ## Hashing
 
