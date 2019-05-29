@@ -4,7 +4,10 @@ This document provides a complete description of all consensus rules, for both b
 
 ## Constants
 
-TODO
+| name | value | description |
+|-|-|-|
+| `MAX_INPUTS` | `2**4` (= 16) | Maximum number of inputs in a transaction. |
+| `MAX_OUTPUTS` | `2**4` (= 16) | Maximum number of outputs in a transaction. |
 
 ## Variables
 
