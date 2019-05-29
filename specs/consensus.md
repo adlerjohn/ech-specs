@@ -87,7 +87,7 @@ Verify that `block.numTransactions == len(block.transactions)`.
 
 Initialize `block_inputs` as an empty list.
 
-For each `tx` in `block.transactions`:
+For each `tx` in `block.transactions[1:]`:
 1. For each `input` in `tx.txData.inputs`:
      1. Compute `h = hash(tx.txData)`.
      1. Compute `witness = tx.witnesses[input.witnessIndex]`.
@@ -97,9 +97,15 @@ For each `tx` in `block.transactions`:
 1. Verify that there are no duplicate witnesses, that each subsequent input references a monotonically increasing witness index, and that all witnesses are referenced at least once.
 1. Verify that, for each color, sum of amounts in inputs `<=` sum of amounts in outputs.
 
-Verify that transactions are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
+For `block.transactions[0]` (coinbase transactions):
+1. Verify that `len(block.transactions[0].txData.inputs) == 0`.
+1. Verify that sum of outputs in `block.transactions[0]` is `<=` sum of transaction fees for `block.transactions[1:]`.
 
-TODO maybe allow spending outputs created in this block
+TODO define second-price auction transaction fees.
+
+Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
+
+TODO maybe allow spending outputs created in this block.
 
 ## State Transition
 
