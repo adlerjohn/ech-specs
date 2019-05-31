@@ -58,7 +58,7 @@ Structures are serialized/deserialized from first row to last row, in [internal 
 
 | bytes | name | type | description |
 |-|-|-|-|
-| 4 | index | uint32 | Ouput index. |
+| 4 | index | uint32 | Output index. |
 | 20 | recipient | [address](#addresses) | Recipient of this output. |
 | 32 | amount | uint256 | Number of coins. |
 | 1 or 21 | color | [color](#colors) | If the coin represents a colored coin (in this case, a token). |
