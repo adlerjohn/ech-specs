@@ -53,15 +53,19 @@ Return list of tuples of outpoints and recipients, one for each output in the tr
 
 Return address corresponding to pubkey of signature `sig` of message `msg`.
 
+### `sizeof(transaction)`
+
+Return the size in bytes of the transaction `transaction`.
+
 ## Block Validity
 
 ### Previous Link
 
-Verify that `block.prev == id(head)`.
+Verify that `block.header.prev == id(head)`.
 
 ### Height
 
-Verify that `block.height == head.height + 1`.
+Verify that `block.header.height == head.height + 1`.
 
 ### Deposits Root
 
@@ -95,13 +99,15 @@ For each `tx` in `block.transactions[1:]`:
      1. Verify that `input not in block_inputs`.
      1. Compute `block_inputs.append(input)` (no double spending within block).
 1. Verify that there are no duplicate witnesses, that each subsequent input references a monotonically increasing witness index, and that all witnesses are referenced at least once.
-1. Verify that, for each color, sum of amounts in inputs `<=` sum of amounts in outputs.
+1. Verify that `tx.txData.maxFeePerByte >= block.header.feePerByte` (transaction fee rate is high enough for inclusion) or `tx.txData.maxFeePerByte == 0` (no-free transactions are acceptable).
+1. Verify that `tx.txData.outputs[0] >= tx.txData.maxFeePerByte * sizeof(tx)` (change output must have enough to pay for max fees).
+1. Verify that, for each color, sum of amounts in inputs `==` sum of amounts in outputs (coins can't be created or destroyed, only transferred from one owner to another).
 
-For `block.transactions[0]` (coinbase transactions):
+For `block.transactions[0]` (coinbase transaction):
 1. Verify that `len(block.transactions[0].txData.inputs) == 0`.
-1. Verify that sum of outputs in `block.transactions[0]` is `<=` sum of transaction fees for `block.transactions[1:]`.
+1. Verify that sum of outputs in `block.transactions[0]` `==` sum of transaction fees for `block.transactions[1:]`. Fees collected for each `tx` in `block.transactions[1:]` are `block.header.feePerByte * sizeof(tx)` if `tx.txData.maxFeePerByte != 0`, `0` otherwise.
 
-TODO define second-price auction transaction fees.
+TODO block reward maturity (tied to Ethereum blocks)
 
 Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
 
