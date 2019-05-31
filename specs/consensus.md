@@ -93,15 +93,13 @@ For each `tx` in `block.transactions[1:]`:
 1. Verify that `tx.txData.outputs[0] >= tx.txData.maxFeePerByte * sizeof(tx)` (change output must have enough to pay for max fees).
 1. Verify that, for each color, sum of amounts in inputs `==` sum of amounts in outputs (coins can't be created or destroyed, only transferred from one owner to another).
 
+Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
+
 For `block.transactions[0]` (coinbase transaction):
 1. Verify that `len(block.transactions[0].txData.inputs) == 0`.
 1. Verify that sum of outputs in `block.transactions[0]` `==` sum of transaction fees for `block.transactions[1:]`. Fees collected for each `tx` in `block.transactions[1:]` are `block.header.feePerByte * sizeof(tx)` if `tx.txData.maxFeePerByte != 0`, `0` otherwise.
 
 TODO block reward maturity (tied to Ethereum blocks)
-
-Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
-
-TODO maybe allow spending outputs created in this block.
 
 ## State Transition
 
