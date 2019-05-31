@@ -13,16 +13,12 @@ This document provides a complete description of all consensus rules, for both b
 
 ### `block`
 
-Denotes the current block.
+The current block that is being validated.
 Nested member variables are found in the [data structures](./data_structures.md) document.
-
-### `head`
-
-Denotes the block at the current head of the chain.
 
 ### `state`
 
-Denotes the UTXO set.
+The chain state (UTXO set).
 
 TODO define helper functions and state better, especially with state commitments.
 
@@ -31,10 +27,6 @@ TODO define helper functions and state better, especially with state commitments
 ### `hash(T)`
 
 Compute the Keccak-256 hash of the binary input `T`.
-
-### `id(block)`
-
-Return `hash(block.header)`.
 
 ### `len(T[])`
 
@@ -61,11 +53,9 @@ Return the size in bytes of the transaction `transaction`.
 
 ### Previous Link
 
-Verify that `block.header.prev == id(head)`.
+Verify that a block with ID `block.header.prev` exists (ID is the hash of the block header), and assign the previous block header to `prevHeader`.
 
-### Height
-
-Verify that `block.header.height == head.height + 1`.
+Verify that `block.header.height == prevHeader.height + 1`.
 
 ### Deposits Root
 
