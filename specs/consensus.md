@@ -71,6 +71,7 @@ Verify that `block.numDeposits == len(block.deposits)`.
 
 For each `deposit` in `block.deposits`:
 1. Verify that `len(deposit.txData.inputs) == 0`.
+1. Verify that `len(deposit.txData.outputs) <= MAX_OUTPUTS`.
 1. TODO verify that deposit comes from main chain, and recipients match up.
 
 Verify that deposits are lexicographically ordered in ascending order of deposit id: `hash(deposit.txData)`.
@@ -82,6 +83,8 @@ Verify that `block.numTransactions == len(block.transactions)`.
 Initialize `block_inputs` as an empty list.
 
 For each `tx` in `block.transactions[1:]`:
+1. Verify that `len(tx.txData.inputs) <= MAX_INPUTS`.
+1. Verify that `len(tx.txData.outputs) <= MAX_OUTPUTS`.
 1. For each `input` in `tx.txData.inputs`:
      1. Compute `h = hash(tx.txData)`.
      1. Compute `witness = tx.witnesses[input.witnessIndex]`.
@@ -95,9 +98,11 @@ For each `tx` in `block.transactions[1:]`:
 
 Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
 
-For `block.transactions[0]` (coinbase transaction):
-1. Verify that `len(block.transactions[0].txData.inputs) == 0`.
-1. Verify that sum of outputs in `block.transactions[0]` `==` sum of transaction fees for `block.transactions[1:]`. Fees collected for each `tx` in `block.transactions[1:]` are `block.header.feePerByte * sizeof(tx)` if `tx.txData.maxFeePerByte != 0`, `0` otherwise.
+For `coinbase = block.transactions[0]` (coinbase transaction):
+1. Verify that `len(coinbase.txData.inputs) == 0`.
+1. Verify that `len(coinbase.txData.outputs) == 1`.
+1. Verify that `coinbase.txData.outputs[0].color == 0x00` (coinbase output is for native coin).
+1. Verify that `coinbase.txData.outputs[0].amount ==` sum of transaction fees for `block.transactions[1:]`. Fees collected for each `tx` in `block.transactions[1:]` are `block.header.feePerByte * sizeof(tx)` if `tx.txData.maxFeePerByte != 0`, `0` otherwise.
 
 TODO block reward maturity (tied to Ethereum blocks)
 
