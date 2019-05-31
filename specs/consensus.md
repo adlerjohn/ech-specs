@@ -24,9 +24,17 @@ TODO define helper functions and state better, especially with state commitments
 
 ## Helper functions
 
+### `ecrecover(sig, msg)`
+
+Return address corresponding to pubkey of signature `sig` of message `msg`.
+
 ### `hash(T)`
 
 Compute the Keccak-256 hash of the binary input `T`.
+
+### `header_at(height)`
+
+Return block header at height `height`.
 
 ### `len(T[])`
 
@@ -37,21 +45,13 @@ Return length of list.
 Compute the Merkle root of the list of items `T[]`.
 If there are an odd number of items on the level, the last one is duplicated.
 
-### `to_outpoints(transaction)`
-
-Return list of tuples of (outpoints and tuples of (recipients and amounts), one for each output in the transaction.
-
-### `ecrecover(sig, msg)`
-
-Return address corresponding to pubkey of signature `sig` of message `msg`.
-
 ### `sizeof(transaction)`
 
 Return the size in bytes of the transaction `transaction`.
 
-### `header_at(height)`
+### `to_outpoints(transaction)`
 
-Return block header at height `height`.
+Return list of tuples of (outpoints and tuples of (recipients and amounts), one for each output in the transaction.
 
 ## Block Validity
 
