@@ -49,7 +49,15 @@ Return address corresponding to pubkey of signature `sig` of message `msg`.
 
 Return the size in bytes of the transaction `transaction`.
 
+### `header_at(height)`
+
+Return block header at height `height`.
+
 ## Block Validity
+
+This section defines block validity rules.
+A block that does not pass a verification check listed in this section is invalid.
+A block that passes all verification checks listen in this section is valid, but may not be included in the canonical chain, depending on application of the [fork choice rule](#fork-choice-rule).
 
 ### Previous Link
 
@@ -95,6 +103,10 @@ For each `tx` in `block.transactions[1:]`:
 1. Verify that `tx.txData.maxFeePerByte >= block.header.feePerByte` (transaction fee rate is high enough for inclusion) or `tx.txData.maxFeePerByte == 0` (no-free transactions are acceptable).
 1. Verify that `tx.txData.outputs[0] >= tx.txData.maxFeePerByte * sizeof(tx)` (change output must have enough to pay for max fees).
 1. Verify that, for each color, sum of amounts in inputs `==` sum of amounts in outputs (coins can't be created or destroyed, only transferred from one owner to another).
+1. Verify that `tx.txData.heightMin <= block.header.height <= tx.txData.heightMax`.
+1. If `tx.txData.recentBlockHeight != 0`:
+    1. Verify that `tx.txData.recentBlockHeight < block.header.height`.
+    1. Verify that `tx.txData.recentBlockHash == header_at(tx.txData.recentBlockHeight).height`.
 
 Verify that transactions other than the first are lexicographically ordered in ascending order of transaction id: `hash(tx.txData)`.
 
