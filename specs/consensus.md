@@ -47,7 +47,7 @@ If there are an odd number of items on the level, the last one is duplicated.
 
 ### `to_outpoints(transaction)`
 
-Return list of tuples of outpoints and recipients, one for each output in the transaction.
+Return list of tuples of (outpoints and tuples of (recipients and amounts), one for each output in the transaction.
 
 ### `ecrecover(sig, msg)`
 
@@ -116,14 +116,14 @@ TODO maybe allow spending outputs created in this block.
 ## State Transition
 
 For each `deposit` in `block.deposits`:
-1. For each `(outpoint, recipient)` in `to_outpoints(deposit)`:
-    1. Execute `state.insert(hash(outpoint), recipient)`.
+1. For each `(outpoint, (recipient, amount))` in `to_outpoints(deposit)`:
+    1. Execute `state.insert(hash(outpoint), (recipient, amount))`.
 
 For each `tx` in `block.transactions`:
 1. For each `input` in `tx.txData.inputs`:
     1. Execute `state.erase(input)`.
-1. For each `(outpoint, recipient)` in `to_outpoints(tx)`:
-    1. Execute `state.insert(hash(outpoint), recipient)`.
+1. For each `(outpoint, (recipient, amount))` in `to_outpoints(tx)`:
+    1. Execute `state.insert(hash(outpoint), (recipient, amount))`.
 
 ## Fork Choice Rule
 
