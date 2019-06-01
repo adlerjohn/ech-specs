@@ -7,7 +7,7 @@ Structures are serialized/deserialized from first row to last row, in [internal 
 
 | bytes | name | type | description |
 |-|-|-|-|
-| 116 | header | [block header](#block-headers) | The block header, which contains Merkle roots and other important information. |
+| 148 | header | [block header](#block-headers) | The block header, which contains Merkle roots and other important information. |
 | 8 | numDeposits | uint64 | The number of deposit transactions (transactions that come directly from deposits on the main chain, which have zero inputs). |
 | variable | deposits | [transaction](#transactions) | List of deposit transactions. |
 | 8 | numTransactions | uint64 | The number of transactions. |
@@ -21,6 +21,7 @@ Structures are serialized/deserialized from first row to last row, in [internal 
 | 32 | prev | [digest](#hashing) | Hash of previous block's header. |
 | 32 | depositsRoot | [digest](#hashing) | Merkle root of deposit transactions. |
 | 32 | transactionsRoot | [digest](#hashing) | Merkle root of transactions. |
+| 32 | stateRoot | [digest](#hashing) | Root of [sparse Merkle tree](#sparse-merkle-trees) of state. |
 | 8 | height | uint64 | Block height. Genesis block is at height `0`. |
 | 8 | feePerByte | uint64 | Transaction fee collected per transaction byte. |
 
@@ -111,3 +112,8 @@ An extra byte appended to the end of signatures indicates parity, allowing recov
 All cryptographic hashing is done with [Keccak-256](https://keccak.team/keccak.html) **not** SHA3-256 ([FIPS 202](https://keccak.team/specifications.html#FIPS_202)).
 At a later date, support for different or multiple hashing functions may be considered.
 Digests are 256 bits (32 bytes) in length.
+
+## Sparse Merkle Trees
+
+Sparse Merkle trees are used to commit to data that must be updated regularly.
+The following optimization is used: `hash(0x00 * 32, 0x00 * 32) = 0x00 * 32`.
