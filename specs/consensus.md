@@ -59,6 +59,10 @@ This section defines block validity rules.
 A block that does not pass a verification check listed in this section is invalid.
 A block that passes all verification checks listen in this section is valid, but may not be included in the canonical chain, depending on application of the [fork choice rule](#fork-choice-rule).
 
+### Inclusion on Parent Chain
+
+Verify that `block.header` is included as a receipt in the form of a log from the [deposit contract](./deposit_contract.md) for the linked parent chain block.
+
 ### Previous Link
 
 Verify that a block with ID `block.header.prev` exists (ID is the hash of the block header), and assign the previous block header to `prevHeader`.
@@ -80,7 +84,10 @@ Verify that `block.numDeposits == len(block.deposits)`.
 For each `deposit` in `block.deposits`:
 1. Verify that `len(deposit.txData.inputs) == 0`.
 1. Verify that `len(deposit.txData.outputs) <= MAX_OUTPUTS`.
-1. TODO verify that deposit comes from main chain, and recipients match up.
+1. Verify that `deposit` is a deposit from the [deposit contract](./deposit_contract.md) for the linked parent chain block.
+
+For each `deposit_receipt` from the linked parent chain block and all parent chain blocks since `block.header.prev`'s linked parent chain block:
+1. Verify that `deposit_receipt` is in `block.deposits` (mandatory deposit processing).
 
 Verify that deposits are lexicographically ordered in ascending order of deposit id: `hash(deposit.txData)`.
 
