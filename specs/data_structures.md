@@ -42,9 +42,9 @@ Structures are serialized/deserialized from first row to last row, in [internal 
 | variable | inputs | [input](#inputs) | List of inputs. |
 | 4 | numOutputs | uint32 | Number of outputs from transaction. |
 | variable | outputs | [output](#outputs) | List of outputs. The first output is the change output. |
-| 8 | heightMin | uint64 | Minimum block height which can include this transaction. Set to `0x0000000000000000` to disable. |
-| 8 | heightMax | uint64 | Maximum block height which can include this transaction. Set to `0xFFFFFFFFFFFFFFFF` to disable. |
-| 8 | recentBlockHeight | uint64 | Height of a recent block. Optional, set to `0x0000000000000000` to disable. |
+| 8 | heightMin | uint64 | Minimum block height which can include this transaction. Set to `0x00 * 8` to disable. |
+| 8 | heightMax | uint64 | Maximum block height which can include this transaction. Set to `0xFF * 8` to disable. |
+| 8 | recentBlockHeight | uint64 | Height of a recent block. Optional, set to `0x00 * 8` to disable. |
 | 32 | recentBlockHash | [digest](#hashing) | Optional. If recentBlockHeight is non-zero, hash of block at recentBlockHeight. May be used for consensus rules to exclude transactions that commit to a different chain. |
 | 8 | maxFeePerByte | uint64 | Maximum transaction fee this transaction will pay per byte. |
 
